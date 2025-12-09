@@ -2,6 +2,7 @@ import type { Metadata } from "next";
 import { Geist, Geist_Mono } from "next/font/google";
 import "./globals.css";
 import Header from "@/component/LandingPage/header/Header/Header";
+import Logo from "@/public/bl.png"
 
 const geistSans = Geist({
   variable: "--font-geist-sans",
@@ -15,7 +16,10 @@ const geistMono = Geist_Mono({
 
 export const metadata: Metadata = {
   title: "AImate",
-  description: "Your AI campanion || For Students",
+  description: "Your AI companion || For Students",
+  icons: {
+    icon: Logo, // <-- just the imported image
+  },
 };
 
 export default function RootLayout({

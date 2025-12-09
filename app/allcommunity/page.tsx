@@ -6,10 +6,21 @@ import { useAuth } from "../../Firebase/AuthContext";
 import "./AllCommunity.css";
 import { useRouter } from "next/navigation";
 
+interface Community {
+  id: string;
+  UserID?: string;
+  Link?: string;
+  data?: {
+    Name?: string;
+    tags?: string[];
+    [key: string]: any;
+  };
+}
+
 export default function AllCommunity() {
   const Router = useRouter();
   const { user, loading: authLoading } = useAuth();
-  const [communities, setCommunities] = useState([]);
+  const [communities, setCommunities] = useState<Community[]>([]);
   const [filterTag, setFilterTag] = useState(null); // selected tag/category filter
   const [uniqueTags, setUniqueTags] = useState([]);
 
