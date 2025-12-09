@@ -1,0 +1,369 @@
+:root {
+  --main-blue: #1976d2;
+  --secondary-purple: #7e57c2;
+  --light-bg: #f9f9f9;
+  --card-border: #ddd;
+  --text-dark: #333;
+  --text-light: #fff;
+}
+
+/* Wrapper */
+.form-wrapper {
+  display: flex;
+  justify-content: center;
+  padding: 40px 20px;
+  background: var(--light-bg);
+  min-height: 100vh;
+  box-sizing: border-box;
+}
+
+/* Form Container */
+.model-form {
+  background: #fff;
+  padding: 32px;
+  border-radius: 16px;
+  max-width: 800px;
+  width: 100%;
+  box-shadow: 0 6px 20px rgba(0, 0, 0, 0.15);
+  display: flex;
+  flex-direction: column;
+  gap: 24px;
+  animation: fadeSlide 0.4s ease-in-out;
+  box-sizing: border-box;
+}
+
+.form-title {
+  text-align: center;
+  font-size: 22px;
+  font-weight: 600;
+  color: var(--main-blue);
+  margin-bottom: 12px;
+}
+
+.section-title {
+  margin: 8px 0;
+  font-size: 16px;
+  font-weight: 500;
+  color: var(--secondary-purple);
+}
+
+/* Inputs */
+.input-group {
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+}
+
+.input-group input,
+.input-group textarea {
+  padding: 12px;
+  border: 1px solid var(--card-border);
+  border-radius: 8px;
+  outline: none;
+  font-size: 14px;
+  transition: border-color 0.2s, box-shadow 0.2s;
+}
+
+.input-group textarea {
+  min-height: 80px;
+  resize: vertical;
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--main-blue);
+  box-shadow: 0 0 0 3px rgba(25, 118, 210, 0.2);
+}
+
+.input-group label {
+  font-size: 14px;
+  color: var(--text-dark);
+}
+
+/* Option Grids */
+.options-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(140px, 1fr));
+  gap: 16px;
+}
+
+.option-card {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  text-align: center;
+  padding: 16px;
+  border: 2px solid transparent;
+  border-radius: 12px;
+  background: #f2f2f2;
+  font-weight: 500;
+  font-size: 14px;
+  color: var(--text-dark);
+  cursor: pointer;
+  transition: transform 0.2s ease, background 0.25s ease, border-color 0.25s;
+  min-height: 60px;
+  user-select: none;
+  outline-offset: 3px;
+}
+
+.option-card:hover,
+.option-card:focus {
+  background: #e6f0fa;
+  transform: translateY(-2px);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+  outline: none;
+}
+
+.option-card.selected {
+  border-color: var(--main-blue);
+  background: rgba(25, 118, 210, 0.1);
+  transform: scale(1.05);
+}
+
+/* Submit Button */
+.btn-submit {
+  background: var(--main-blue);
+  color: var(--text-light);
+  font-size: 15px;
+  font-weight: 600;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 24px;
+  cursor: pointer;
+  transition: background 0.3s, transform 0.15s;
+  min-width: 100px;
+}
+
+.btn-submit:hover {
+  background: #1565c0;
+  transform: scale(1.05);
+}
+
+.input-group input:hover,
+.input-group textarea:hover {
+  border-color: var(--secondary-purple);
+}
+
+.input-group input:focus,
+.input-group textarea:focus {
+  border-color: var(--main-blue);
+  box-shadow: 0 0 0 4px rgba(25, 118, 210, 0.1);
+}
+
+.char-count {
+  font-size: 12px;
+  color: gray;
+  text-align: right;
+  margin-top: -10px;
+  user-select: none;
+}
+
+/* Progress Bar */
+.progress-bar {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 24px;
+  gap: 10px;
+  flex-wrap: wrap;
+}
+
+.progress-step {
+  flex: 1;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  cursor: default;
+  color: var(--card-border);
+  user-select: none;
+  font-size: 14px;
+  min-width: 70px;
+}
+
+.progress-step .step-number {
+  width: 28px;
+  height: 28px;
+  border-radius: 50%;
+  border: 2px solid var(--card-border);
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  font-weight: 600;
+  color: var(--card-border);
+  background: #fff;
+  transition: all 0.3s ease;
+}
+
+.progress-step.active,
+.progress-step.completed {
+  color: var(--main-blue);
+}
+
+.progress-step.active .step-number,
+.progress-step.completed .step-number {
+  border-color: var(--main-blue);
+  background: var(--main-blue);
+  color: var(--text-light);
+}
+
+.progress-step.completed .step-number {
+  background: var(--secondary-purple);
+  border-color: var(--secondary-purple);
+  color: var(--text-light);
+}
+
+.progress-step .step-label {
+  flex: 1;
+  white-space: nowrap;
+  font-weight: 500;
+}
+
+/* Button Group */
+.button-group {
+  display: flex;
+  justify-content: flex-end;
+  gap: 12px;
+  margin-top: 24px;
+  flex-wrap: wrap;
+}
+
+.btn-secondary {
+  background: #e0e0e0;
+  color: #333;
+  border: none;
+  border-radius: 10px;
+  padding: 12px 20px;
+  cursor: pointer;
+  font-weight: 600;
+  transition: background 0.3s;
+  min-width: 100px;
+}
+
+.btn-secondary:hover {
+  background: #c7c7c7;
+}
+
+/* Animations */
+@keyframes fadeSlide {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+.animate-fade {
+  animation: fadeInUp 0.35s ease forwards;
+}
+
+@keyframes fadeInUp {
+  from {
+    opacity: 0;
+    transform: translateY(20px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}
+
+/* Preview Box */
+.preview-box {
+  background: #fffafc;
+  border: 1px solid #e0d7ff;
+  padding: 20px;
+  border-radius: 10px;
+  font-size: 14px;
+  color: #444;
+  line-height: 1.5;
+  user-select: none;
+  box-sizing: border-box;
+}
+
+/* Responsive Styles */
+@media (max-width: 900px) {
+  .form-wrapper {
+    padding: 30px 15px;
+  }
+
+  .model-form {
+    padding: 24px 20px;
+    max-width: 100%;
+  }
+
+  .options-grid {
+    grid-template-columns: repeat(auto-fit, minmax(120px, 1fr));
+  }
+
+  .progress-step .step-label {
+    font-size: 13px;
+  }
+}
+
+@media (max-width: 600px) {
+  .form-wrapper {
+    padding: 20px 10px;
+    min-height: auto;
+  }
+
+  .model-form {
+    padding: 20px 15px;
+    border-radius: 12px;
+    gap: 18px;
+  }
+
+  .form-title {
+    font-size: 20px;
+  }
+
+  .section-title {
+    font-size: 14px;
+  }
+
+  .input-group input,
+  .input-group textarea {
+    font-size: 13px;
+    padding: 10px;
+  }
+
+  .options-grid {
+    grid-template-columns: repeat(auto-fit, minmax(100%, 1fr));
+    gap: 12px;
+  }
+
+  .option-card {
+    min-height: 50px;
+    font-size: 13px;
+    padding: 12px;
+  }
+
+  .button-group {
+    flex-direction: column;
+    gap: 10px;
+  }
+
+  .btn-submit,
+  .btn-secondary {
+    width: 100%;
+    min-width: unset;
+    padding: 14px;
+  }
+
+  .progress-bar {
+    flex-direction: column;
+    gap: 12px;
+  }
+
+  .progress-step {
+    width: 100%;
+    justify-content: flex-start;
+  }
+
+  .progress-step .step-number {
+    width: 26px;
+    height: 26px;
+  }
+}

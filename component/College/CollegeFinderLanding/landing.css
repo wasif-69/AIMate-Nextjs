@@ -1,0 +1,145 @@
+:root {
+  --main-purple: #7e57c2;
+  --secondary-purple: #9c6be8;
+  --background-white: #ffffff;
+  --text-color: #333;
+  --text-light: rgba(255,255,255,0.9);
+}
+
+/* Hero Banner Section */
+.hero-banner {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 80px 100px;
+  background: linear-gradient(135deg, var(--main-purple), var(--secondary-purple));
+  border-radius: 20px;
+  color: var(--background-white);
+  gap: 50px;
+  flex-wrap: wrap;
+  overflow: hidden;
+  position: relative;
+
+  width: 70%;   /* reduce width */
+  margin: 0 auto; 
+}
+
+/* Hero Content */
+.hero-content {
+  flex: 1;
+  max-width: 600px;
+  z-index: 2;
+}
+
+.hero-title {
+  font-size: 3rem;
+  font-weight: 800;
+  margin-bottom: 25px;
+  line-height: 1.2;
+  color: var(--background-white);
+}
+
+.hero-subtitle {
+  font-size: 1.25rem;
+  margin-bottom: 35px;
+  line-height: 1.6;
+  color: var(--text-light);
+}
+
+/* Hero CTA Button */
+.hero-cta {
+  background: var(--background-white);
+  color: var(--main-purple);
+  font-weight: 700;
+  font-size: 1.1rem;
+  padding: 16px 40px;
+  border: none;
+  border-radius: 12px;
+  cursor: pointer;
+  box-shadow: 0 8px 20px rgba(0,0,0,0.15);
+  transition: all 0.3s ease;
+}
+
+.hero-cta:hover {
+  background: rgba(255,255,255,0.95);
+  transform: scale(1.05);
+}
+
+/* Hero Image */
+.hero-image {
+  flex: 1;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  position: relative;
+}
+
+.hero-image img {
+  max-width: 100%;
+  height: auto;
+  border-radius: 20px;
+  box-shadow: 0 12px 32px rgba(0,0,0,0.25);
+  transition: transform 0.4s ease;
+}
+
+.hero-image img:hover {
+  transform: scale(1.05);
+}
+
+/* Optional floating shapes (decorative) */
+.hero-banner::before {
+  content: '';
+  position: absolute;
+  width: 400px;
+  height: 400px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  top: -80px;
+  right: -100px;
+  z-index: 1;
+}
+
+.hero-banner::after {
+  content: '';
+  position: absolute;
+  width: 300px;
+  height: 300px;
+  background: rgba(255, 255, 255, 0.05);
+  border-radius: 50%;
+  bottom: -60px;
+  left: -80px;
+  z-index: 1;
+}
+
+/* Responsive */
+@media (max-width: 992px) {
+  .hero-banner {
+    flex-direction: column-reverse;
+    text-align: center;
+    padding: 60px 40px;
+    gap: 30px;
+  }
+
+  .hero-content {
+    max-width: 100%;
+  }
+
+  .hero-image {
+    margin-bottom: 20px;
+  }
+}
+
+@media (max-width: 576px) {
+  .hero-title {
+    font-size: 2rem;
+  }
+
+  .hero-subtitle {
+    font-size: 1rem;
+  }
+
+  .hero-cta {
+    padding: 12px 32px;
+    font-size: 1rem;
+  }
+}

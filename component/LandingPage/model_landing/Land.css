@@ -1,0 +1,174 @@
+/* Container with animated background */
+.with-bg-animation {
+  position: relative;
+  overflow: hidden;
+  z-index: 0;
+  padding: 40px 20px;
+  text-align: center;
+  background: linear-gradient(270deg, #7e57c2, #1976d2, #9c6be8, #1976d2);
+  background-size: 800% 800%;
+  animation: gradientShift 20s ease infinite;
+}
+
+@keyframes gradientShift {
+  0% {
+    background-position: 0% 50%;
+  }
+  50% {
+    background-position: 100% 50%;
+  }
+  100% {
+    background-position: 0% 50%;
+  }
+}
+
+.addmodel-container {
+  position: relative;
+  z-index: 1;
+  max-width: 1200px;
+  margin: 0 auto;
+  background: rgba(255, 255, 255, 0.95);
+  border-radius: 20px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.1);
+  padding: 40px 30px;
+}
+
+.addmodel-title {
+  font-size: clamp(28px, 5vw, 32px);
+  font-weight: 800;
+  color: #1976d2; /* main blue */
+  margin-bottom: 10px;
+  user-select: none;
+}
+
+.addmodel-subtitle {
+  font-size: 18px;
+  color: #555;
+  margin-bottom: 40px;
+  user-select: none;
+}
+
+.addmodel-sections {
+  display: grid;
+  grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+  gap: 25px;
+}
+
+.addmodel-card {
+  background: #ffffff;
+  padding: 25px;
+  border-radius: 15px;
+  box-shadow: 0 6px 16px rgba(0, 0, 0, 0.1);
+  text-align: left;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  cursor: pointer;
+  position: relative;
+  overflow: hidden;
+  outline-offset: 3px;
+}
+
+.addmodel-card:focus {
+  box-shadow: 0 0 0 4px #7e57c2;
+}
+
+.addmodel-card:hover {
+  transform: translateY(-8px);
+  box-shadow: 0 12px 24px rgba(0, 0, 0, 0.18);
+}
+
+.addmodel-card h3 {
+  font-size: 22px;
+  color: #7e57c2; /* secondary purple */
+  margin-bottom: 10px;
+  transition: color 0.3s ease;
+}
+
+.addmodel-card:hover h3 {
+  color: #9c6be8;
+}
+
+.addmodel-card p {
+  font-size: 15px;
+  color: #444;
+  margin-bottom: 20px;
+}
+
+.btn {
+  display: inline-block;
+  padding: 10px 20px;
+  border-radius: 25px;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  transition: all 0.25s ease;
+  text-decoration: none;
+  border: none !important;
+  outline: none;
+  position: relative;
+  overflow: hidden;
+  background-color: #7e57c2 !important; /* Purple */
+  color: #fff !important;
+  box-shadow: 0 5px 15px rgba(126, 87, 194, 0.4);
+  user-select: none;
+}
+
+.btn-filled:hover {
+  background-color: #9c6be8 !important;
+  transform: scale(1.05);
+  box-shadow: 0 10px 25px rgba(156, 107, 232, 0.6);
+}
+
+/* Button ripple effect */
+.btn:after {
+  content: "";
+  position: absolute;
+  border-radius: 50%;
+  width: 100px;
+  height: 100px;
+  top: 50%;
+  left: 50%;
+  pointer-events: none;
+  background: rgba(255, 255, 255, 0.4);
+  opacity: 0;
+  transform: translate(-50%, -50%) scale(1);
+  transition: opacity 0.3s, transform 0.3s;
+  z-index: 1;
+}
+
+.btn:active:after {
+  opacity: 1;
+  transform: translate(-50%, -50%) scale(0);
+  transition: 0s;
+}
+
+/* Loading spinner */
+.spinner {
+  border: 5px solid #f3f3f3;
+  border-top: 5px solid #7e57c2;
+  border-radius: 50%;
+  width: 40px;
+  height: 40px;
+  margin: 0 auto 20px;
+  animation: spin 1s linear infinite;
+}
+
+@keyframes spin {
+  0% { transform: rotate(0deg); }
+  100% { transform: rotate(360deg); }
+}
+
+/* FadeIn animation for headings */
+.addmodel-container h2 {
+  animation: fadeIn 0.5s ease-in-out;
+}
+
+@keyframes fadeIn {
+  from {
+    opacity: 0;
+    transform: translateY(10px);
+  }
+  to {
+    opacity: 1;
+    transform: translateY(0);
+  }
+}

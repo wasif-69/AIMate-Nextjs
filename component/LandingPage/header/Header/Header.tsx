@@ -3,10 +3,10 @@
 import React, { useState, useEffect } from "react";
 import "./Header.css";
 import { onAuthStateChanged, signOut } from "firebase/auth";
-import { auth, db } from "../../Firebase/firebaseConfig";
+import { auth, db } from "../../../../Firebase/firebaseConfig";
 import { doc, getDoc } from "firebase/firestore";
-import { Link, useNavigate } from "react-router-dom";
 import { useRouter } from "next/navigation";
+import Link from "next/link";
 
 export default function Header() {
   const [menuOpen, setMenuOpen] = useState(false);
@@ -14,7 +14,8 @@ export default function Header() {
   const [userInfo, setUserInfo] = useState(null);
   const [scrolled, setScrolled] = useState(false);
 
-  const navigate = useNavigate();
+  const Router = useRouter();
+  const homeNavigate = () => Router.push("/");
 
   useEffect(() => {
     const unsubscribe = onAuthStateChanged(auth, async (currentUser) => {
@@ -60,13 +61,13 @@ export default function Header() {
   const loggedInNav = (
     <>
       <div className="user-greeting">Hello, {userInfo?.Student}</div>
-      <Link to="/com"><button className="btn btn-outline">The Social Network!</button></Link>
-      <Link to="/quicktest"><button className="btn btn-outline">Quick Test!</button></Link>
-      <Link to="/chatModels"><button className="btn btn-outline">Model Chat</button></Link>
-      <Link to="/college"><button className="btn btn-outline">College Finder</button></Link>
-      {/* <Link to="/sum"><button className="btn btn-outline">Summarizer</button></Link> */}
-      {/* <Link to="/aivoice"><button className="btn btn-outline">AI Voice</button></Link> */}
-      <Link to="/feedback"><button className="btn btn-outline">Feedback</button></Link>
+      <Link href="/allcommunity"><button className="btn btn-outline">The Social Network!</button></Link>
+      <Link href="/quicktest"><button className="btn btn-outline">Quick Test!</button></Link>
+      <Link href="/Modelchat"><button className="btn btn-outline">Model Chat</button></Link>
+      <Link href="/collegefin"><button className="btn btn-outline">College Finder</button></Link>
+      {/* <Link href="/sum"><button className="btn btn-outline">Summarizer</button></Link> */}
+      {/* <Link href="/aivoice"><button className="btn btn-outline">AI Voice</button></Link> */}
+      <Link href="/feedback"><button className="btn btn-outline">Feedback</button></Link>
       
       <button className="btn btn-outline" onClick={handleLogout}>Logout</button>
     </>
@@ -74,12 +75,13 @@ export default function Header() {
 
   const loggedOutNav = (
     <>
-      <Link to="/login"><button className="btn btn-outline">Login</button></Link>
-      <Link to="/signup"><button className="btn btn-filled">Sign Up</button></Link>
+      <Link href="/login"><button className="btn btn-outline">Login</button></Link>
+      <Link href="/signup"><button className="btn btn-filled">Sign Up</button></Link>
+      
     </>
   );
 
-  const homeNavigate = () => navigate("/");
+  
 
   return (
     <header className={`header ${scrolled ? "scrolled" : ""}`}>

@@ -1,0 +1,122 @@
+/* Root Colors */
+:root {
+  --cs-blue: #2196f3;
+  --cs-purple: #7b1fa2;
+  --cs-dark-purple: #5e35b1;
+  --cs-gray: #e0e0e0;
+  --cs-text: #333;
+  --cs-white: #fff;
+}
+
+/* Wrapper */
+.country-selector-wrapper {
+  font-family: 'Segoe UI', sans-serif;
+  text-align: center;
+  padding: 25px;
+  color: var(--cs-text);
+  max-width: 900px;
+  margin: 0 auto;
+}
+
+/* Title */
+.cs-title {
+  font-size: 1.8rem;
+  color: var(--cs-blue);
+  margin-bottom: 20px;
+}
+
+/* Map container */
+.map-container {
+  background-color: var(--cs-white);
+  border: 2px solid var(--cs-purple);
+  border-radius: 12px;
+  box-shadow: 0 4px 15px rgba(123, 31, 162, 0.15);
+  padding: 10px;
+  transition: all 0.3s ease-in-out;
+}
+
+/* Selected panel */
+.selected-panel {
+  margin-top: 30px;
+  text-align: left;
+  background-color: #fafafa;
+  border: 1px solid #ddd;
+  border-radius: 12px;
+  padding: 15px 20px;
+  box-shadow: 0 3px 8px rgba(0, 0, 0, 0.1);
+}
+
+.selected-panel h3 {
+  color: var(--cs-purple);
+  font-weight: 600;
+  margin-bottom: 10px;
+}
+
+.chips-container {
+  display: flex;
+  flex-wrap: wrap;
+  gap: 8px;
+}
+
+/* Country Chips */
+.country-chip {
+  background-color: var(--cs-purple);
+  color: var(--cs-white);
+  padding: 8px 14px;
+  border-radius: 20px;
+  display: flex;
+  align-items: center;
+  gap: 8px;
+  font-size: 0.95rem;
+  box-shadow: 0 2px 5px rgba(123, 31, 162, 0.25);
+  transition: transform 0.2s ease, background-color 0.3s ease;
+}
+
+.country-chip:hover {
+  background-color: var(--cs-dark-purple);
+  transform: translateY(-2px);
+}
+
+.remove-btn {
+  background: transparent;
+  border: none;
+  color: var(--cs-white);
+  cursor: pointer;
+  font-size: 1rem;
+  line-height: 1;
+  transition: color 0.2s ease;
+}
+
+.remove-btn:hover {
+  color: var(--cs-blue);
+}
+
+.empty-text {
+  color: #777;
+  font-style: italic;
+}
+
+/* Tooltip */
+[data-tooltip-id="country-tooltip"] {
+  font-size: 0.85rem;
+}
+
+/* Responsive */
+@media screen and (max-width: 768px) {
+  .country-selector-wrapper {
+    padding: 15px;
+  }
+
+  .map-container {
+    padding: 5px;
+  }
+
+  .cs-title {
+    font-size: 1.5rem;
+  }
+
+  .country-chip {
+    font-size: 0.85rem;
+    padding: 6px 10px;
+  }
+}

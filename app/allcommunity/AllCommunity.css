@@ -1,0 +1,207 @@
+:root {
+  --main-blue: #1976d2;
+  --secondary-purple: #7e57c2;
+  --background-white: #ffffff;
+  --text-color: #333;
+  --btn-radius: 8px;
+  --card-radius: 15px;
+  --toast-success: #4caf50;
+  --toast-error: #f44336;
+}
+
+/* General */
+body {
+  margin: 0;
+  font-family: "Segoe UI", Tahoma, Geneva, Verdana, sans-serif;
+  background-color: #f7f9fb;
+  color: var(--text-color);
+}
+
+/* Container */
+.community-container {
+  max-width: 1000px;
+  margin: 40px auto;
+  padding: 20px;
+  background-color: var(--background-white);
+  border-radius: var(--card-radius);
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.08);
+}
+
+/* Title & Subtitle */
+.title {
+  font-size: 2.2rem;
+  color: var(--main-blue);
+  margin-bottom: 10px;
+  text-align: center;
+}
+
+.subtitle {
+  text-align: center;
+  color: #666;
+  font-size: 1rem;
+  margin-bottom: 30px;
+}
+
+/* Add Button */
+.add-btn {
+  display: block;
+  margin: 0 auto 30px auto;
+  background-color: var(--secondary-purple);
+  color: white;
+  border: none;
+  padding: 12px 24px;
+  border-radius: var(--btn-radius);
+  font-size: 1rem;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+}
+
+.add-btn:hover {
+  background-color: #6a48a1;
+}
+
+/* Community List */
+.community-list h2 {
+  margin-bottom: 20px;
+  text-align: center;
+  color: var(--main-blue);
+}
+
+.empty {
+  text-align: center;
+  font-style: italic;
+  color: #888;
+}
+
+/* Community Cards */
+.community-cards {
+  list-style: none;
+  padding: 0;
+  display: grid;
+  gap: 20px;
+  grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
+}
+
+.community-card {
+  background-color: #fafafa;
+  padding: 20px;
+  border-radius: var(--card-radius);
+  box-shadow: 0 2px 6px rgba(0, 0, 0, 0.05);
+  transition: transform 0.2s ease;
+  display: flex;
+  flex-direction: column;
+}
+
+.community-card:hover {
+  transform: translateY(-4px);
+}
+
+.community-card h3 {
+  margin: 0 0 15px 0;
+  color: var(--main-blue);
+}
+
+.community-details p {
+  margin: 8px 0;
+  font-size: 0.95rem;
+  color: #444;
+}
+
+.inline-link {
+  color: var(--main-blue);
+  text-decoration: underline;
+  font-weight: 500;
+}
+
+/* Visit Button */
+.visit-btn {
+  margin-top: auto;
+  align-self: flex-start;
+  background-color: var(--main-blue);
+  color: white;
+  text-decoration: none;
+  padding: 10px 16px;
+  border-radius: var(--btn-radius);
+  font-size: 0.9rem;
+  transition: background-color 0.3s ease;
+}
+
+.visit-btn:hover {
+  background-color: #1259a7;
+}
+
+
+/* existing vars & styles omitted for brevity */
+
+.tags-filter {
+  text-align: center;
+  margin-bottom: 20px;
+}
+
+.tag-btn {
+  background-color: #e0e0e0;
+  border: none;
+  margin: 0 5px;
+  padding: 6px 12px;
+  border-radius: var(--btn-radius);
+  cursor: pointer;
+  font-size: 0.9rem;
+  transition: background-color 0.2s ease;
+}
+
+.tag-btn.active {
+  background-color: var(--main-blue);
+  color: white;
+}
+
+.tags-container {
+  margin: 10px 0;
+}
+
+.tag-chip {
+  display: inline-block;
+  background-color: var(--secondary-purple);
+  color: white;
+  padding: 4px 10px;
+  margin: 3px;
+  font-size: 0.8rem;
+  border-radius: var(--btn-radius);
+}
+
+.owner-actions {
+  margin-top: 10px;
+  display: flex;
+  gap: 10px;
+}
+
+.edit-btn, .delete-btn {
+  padding: 6px 12px;
+  border: none;
+  border-radius: var(--btn-radius);
+  font-size: 0.85rem;
+  cursor: pointer;
+}
+
+.edit-btn {
+  background-color: var(--secondary-purple);
+  color: white;
+}
+
+.delete-btn {
+  background-color: var(--toast-error);
+  color: white;
+}
+
+@media (max-width: 600px) {
+  .community-card {
+    padding: 15px;
+  }
+  .visit-btn, .edit-btn, .delete-btn {
+    font-size: 0.8rem;
+    padding: 8px 12px;
+  }
+  .title {
+    font-size: 1.8rem;
+  }
+}
+
