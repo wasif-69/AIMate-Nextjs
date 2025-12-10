@@ -2,32 +2,36 @@
 
 import React, { useState } from "react";
 import { auth, db } from "@/Firebase/firebaseConfig";
-import { collection, doc, getDoc, limit, getDocs, query } from "firebase/firestore";
-
+import { collection, doc, getDoc, getDocs, limit, query } from "firebase/firestore";
 import { savemessage } from "@/Firebase/SAVEMessage";
-import EmojiPicker from "emoji-picker-react";
+import EmojiPicker, { EmojiClickData } from "emoji-picker-react";
 
 interface ChatInputProps {
   setIsLoading: (val: boolean) => void;
   isLoading: boolean;
-  modelId:string
+  modelId: string;
 }
 
-export default function ChatInput({ setIsLoading, isLoading,modelId }: ChatInputProps) {
-  const [text, setText] = useState("");
-  const [showEmojiPicker, setShowEmojiPicker] = useState(false);
+interface ChatDoc {
+  id: string;
+  [key: string]: any;
+}
 
+export default function ChatInput({ setIsLoading, isLoading, modelId }: ChatInputProps) {
+  const [text, setText] = useState<string>("");
+  const [showEmojiPicker, setShowEmojiPicker] = useState<boolean>(false);
 
   const send = async () => {
-    if (!text.trim() || isLoading || !modelId) return;
+    const currentUser = auth.currentUser;
+    if (!text.trim() || isLoading || !modelId || !currentUser) return;
 
     const userMessage = text.trim();
     setText("");
     setIsLoading(true);
 
     try {
-      await savemessage(auth.currentUser.uid, modelId, "User", userMessage);
-      await sendMessageToAPI(userMessage);
+      await savemessage(currentUser.uid, modelId, "User", userMessage);
+      await sendMessageToAPI(userMessage, currentUser.uid);
     } catch (err) {
       console.error("Error sending message:", err);
     } finally {
@@ -35,49 +39,50 @@ export default function ChatInput({ setIsLoading, isLoading,modelId }: ChatInput
     }
   };
 
-  const fetch_data = async () => {
+  const fetchModelData = async (uid: string) => {
     try {
-      const ref = doc(db, "Student", auth.currentUser.uid, "models", modelId);
-      const data_fetched = await getDoc(ref);
-      return data_fetched.data();
-    } catch (error) {
-      console.log("Error fetching Data (in chat input)", error);
+      const ref = doc(db, "Student", uid, "models", modelId);
+      const docSnap = await getDoc(ref);
+      return docSnap.exists() ? docSnap.data() : null;
+    } catch (err) {
+      console.error("Error fetching model data:", err);
       return null;
     }
   };
 
-  const getFirstThreeDocs = async (uid: string) => {
+  const getFirstThreeDocs = async (uid: string): Promise<ChatDoc[]> => {
     const q = query(
       collection(db, "Student", uid, "models", modelId, "Chat"),
       limit(3)
     );
-    const querySnapshot = await getDocs(q);
-    return querySnapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
+    const snapshot = await getDocs(q);
+    return snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() }));
   };
 
-  const sendMessageToAPI = async (userText: string) => {
+  const sendMessageToAPI = async (userText: string, uid: string) => {
     try {
-      const fetched_data = await fetch_data();
-      if (!fetched_data) throw new Error("No model data found");
-      const history = await getFirstThreeDocs(auth.currentUser.uid);
+      const modelData = await fetchModelData(uid);
+      if (!modelData) throw new Error("No model data found");
+
+      const history = await getFirstThreeDocs(uid);
 
       const response = await fetch("https://aimate-7rdt.onrender.com/chat", {
         method: "POST",
         headers: { "Content-Type": "application/json" },
-        body: JSON.stringify({ message: userText, ID: fetched_data, history }),
+        body: JSON.stringify({ message: userText, ID: modelData, history }),
       });
 
       const data = await response.json();
       if (data.message) {
-        await savemessage(auth.currentUser.uid, modelId, "AI", data.message);
+        await savemessage(uid, modelId, "AI", data.message);
       }
     } catch (err) {
       console.error("Error calling API:", err);
     }
   };
 
-  const handleEmojiClick = (emojiObject: any) => {
-    setText((prev) => prev + emojiObject.emoji);
+  const handleEmojiClick = (emojiData: EmojiClickData) => {
+    setText((prev) => prev + emojiData.emoji);
   };
 
   return (
@@ -91,6 +96,7 @@ export default function ChatInput({ setIsLoading, isLoading,modelId }: ChatInput
       <div className="flex items-center gap-3 p-4 border-t border-gray-200 bg-white sticky bottom-0 z-50">
         {/* Emoji Button */}
         <button
+          type="button"
           className="text-2xl"
           onClick={() => setShowEmojiPicker((prev) => !prev)}
         >
@@ -110,6 +116,7 @@ export default function ChatInput({ setIsLoading, isLoading,modelId }: ChatInput
 
         {/* Send Button */}
         <button
+          type="button"
           onClick={send}
           disabled={isLoading || !text.trim()}
           className={`px-5 py-3 rounded-full font-medium transition-all ${

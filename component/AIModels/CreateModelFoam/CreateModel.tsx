@@ -12,7 +12,7 @@ interface Option {
   tooltip: string;
 }
 
-export default function ModelForm(): JSX.Element {
+export default function ModelForm() {
   const [step, setStep] = useState<number>(1);
   const [name, setName] = useState<string>("");
   const [style, setStyle] = useState<string>("");

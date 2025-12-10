@@ -1,14 +1,15 @@
 "use client";
-import { createUserWithEmailAndPassword, onAuthStateChanged } from "firebase/auth";
-import { doc, setDoc, getDoc } from "firebase/firestore";
+
+import { createUserWithEmailAndPassword, onAuthStateChanged, User } from "firebase/auth";
+import { doc, setDoc, getDoc, DocumentData } from "firebase/firestore";
 import { auth, db } from "../../Firebase/firebaseConfig";
-import { useState, useEffect } from "react";
+import { useState, useEffect, FormEvent } from "react";
 import { useRouter } from "next/navigation";
 import "./Signin.css";
 
 export default function Signin() {
-  const [info, setInfo] = useState(null);
-  const [userState, setUserState] = useState(null);
+  const [info, setInfo] = useState<DocumentData | null>(null);
+  const [userState, setUserState] = useState<User | null>(null); // ✅ type User | null
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
   const Router = useRouter();
@@ -20,7 +21,7 @@ export default function Signin() {
       if (currentUser) {
         const userInfo = await getInfo(currentUser.uid);
         setInfo(userInfo);
-        setUserState(currentUser);
+        setUserState(currentUser); // ✅ type-safe
       } else {
         setUserState(null);
         setInfo(null);
@@ -31,22 +32,22 @@ export default function Signin() {
   }, []);
 
   // Handle signup
-  const handleForm = async (e) => {
+  const handleForm = async (e: FormEvent<HTMLFormElement>) => {
     e.preventDefault();
     setError("");
     setLoading(true);
 
-    const formData = new FormData(e.target);
-    const email = formData.get("email");
-    const password = formData.get("password");
-    const student = formData.get("Student");
-    const school = formData.get("school");
-    const model = formData.get("model");
+    const formData = new FormData(e.currentTarget);
+    const email = formData.get("email") as string;
+    const password = formData.get("password") as string;
+    const student = formData.get("Student") as string;
+    const school = formData.get("school") as string;
+    const model = formData.get("model") as string;
 
     try {
       await registerNewUser(email, password, student, school, model);
       console.log("User registered successfully!");
-      navigate("/");
+      Router.push("/"); // ✅ fixed navigation
     } catch (err) {
       console.error("Error registering user:", err);
       setError("Registration failed. Please try again.");
@@ -55,7 +56,13 @@ export default function Signin() {
     }
   };
 
-  const registerNewUser = async (email, password, studentName, institute, modelInfo) => {
+  const registerNewUser = async (
+    email: string,
+    password: string,
+    studentName: string,
+    institute: string,
+    modelInfo: string
+  ) => {
     const userCredentials = await createUserWithEmailAndPassword(auth, email, password);
     const user = userCredentials.user;
 
@@ -70,7 +77,7 @@ export default function Signin() {
     return user;
   };
 
-  const getInfo = async (uid) => {
+  const getInfo = async (uid: string): Promise<DocumentData | null> => {
     const data = await getDoc(doc(db, "Student", uid));
     return data.exists() ? data.data() : null;
   };
@@ -87,11 +94,13 @@ export default function Signin() {
           <input type="password" name="password" placeholder="Password" required />
           <input type="text" name="Student" placeholder="Full Name" required />
           <input type="text" name="school" placeholder="School / Institute" required />
-          <textarea name="model" rows="4" placeholder="Tell us about yourself..." required></textarea>
+          <textarea name="model" rows={4} placeholder="Tell us about yourself..." required />
 
           {error && <p className="error-message">{error}</p>}
 
-          <button type="submit" className="btn btn-filled">Register</button>
+          <button type="submit" className="btn btn-filled">
+            Register
+          </button>
         </form>
       ) : (
         <div className="welcome-card">

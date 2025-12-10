@@ -3,22 +3,21 @@
 import React, { useState, useEffect, useRef } from "react";
 import { savemessage } from "@/Firebase/SAVEMessage";
 import { auth, db } from "@/Firebase/firebaseConfig";
-import { collection, query, orderBy, onSnapshot } from "firebase/firestore";
+import { collection, query, orderBy, onSnapshot, Timestamp } from "firebase/firestore";
 
 interface Message {
   id: string;
   sender: "User" | "AI";
   message: string;
-  time?: any;
+  time?: Timestamp;
 }
 
 interface ChatTextProps {
   isLoading: boolean;
-  modelId:string;
+  modelId: string;
 }
 
-export default function ChatText({ isLoading,modelId }: ChatTextProps) {
-  
+export default function ChatText({ isLoading, modelId }: ChatTextProps) {
   const [messages, setMessages] = useState<Message[]>([]);
   const [showScrollButton, setShowScrollButton] = useState(false);
   const chatBoxRef = useRef<HTMLDivElement>(null);
@@ -31,9 +30,7 @@ export default function ChatText({ isLoading,modelId }: ChatTextProps) {
   const handleScroll = () => {
     const box = chatBoxRef.current;
     if (!box) return;
-
-    const distanceFromBottom =
-      box.scrollHeight - box.scrollTop - box.clientHeight;
+    const distanceFromBottom = box.scrollHeight - box.scrollTop - box.clientHeight;
     setShowScrollButton(distanceFromBottom > 150);
   };
 
@@ -48,29 +45,24 @@ export default function ChatText({ isLoading,modelId }: ChatTextProps) {
   }, []);
 
   useEffect(() => {
-    if (!auth.currentUser || !modelId) return;
+    const currentUser = auth.currentUser;
+    if (!currentUser || !modelId) return;
 
-    const messagesRef = collection(
-      db,
-      "Student",
-      auth.currentUser.uid,
-      "models",
-      modelId,
-      "Chat"
-    );
+    const messagesRef = collection(db, "Student", currentUser.uid, "models", modelId, "Chat");
     const q = query(messagesRef, orderBy("time", "asc"));
 
     const unsubscribe = onSnapshot(q, async (snapshot) => {
-      const msgs = snapshot.docs.map((doc) => ({ id: doc.id, ...doc.data() })) as Message[];
+      const msgs: Message[] = snapshot.docs.map((doc) => ({
+        id: doc.id,
+        sender: doc.data().sender,
+        message: doc.data().message,
+        time: doc.data().time,
+      }));
+
       setMessages(msgs);
 
       if (msgs.length === 0) {
-        await savemessage(
-          auth.currentUser.uid,
-          modelId,
-          "AI",
-          "Hey There! how can I help you today"
-        );
+        await savemessage(currentUser.uid, modelId, "AI", "Hey there! How can I help you today?");
       }
 
       scrollToBottom();
@@ -80,7 +72,10 @@ export default function ChatText({ isLoading,modelId }: ChatTextProps) {
   }, [modelId]);
 
   return (
-    <div className="relative h-[calc(100vh-180px)] overflow-y-auto p-5 bg-white flex flex-col gap-3" ref={chatBoxRef}>
+    <div
+      className="relative h-[calc(100vh-180px)] overflow-y-auto p-5 bg-white flex flex-col gap-3"
+      ref={chatBoxRef}
+    >
       {messages.map((msg) => (
         <div
           key={msg.id}
@@ -91,9 +86,9 @@ export default function ChatText({ isLoading,modelId }: ChatTextProps) {
           }`}
         >
           <p>{msg.message}</p>
-          {msg.time && (
+          {msg.time?.toDate && (
             <span className="text-xs opacity-60 block text-right mt-1">
-              {msg.time?.toDate?.()?.toLocaleTimeString([], {
+              {msg.time.toDate().toLocaleTimeString([], {
                 hour: "2-digit",
                 minute: "2-digit",
               })}
@@ -113,7 +108,6 @@ export default function ChatText({ isLoading,modelId }: ChatTextProps) {
 
       <div ref={chatEndRef} />
 
-      {/* Scroll-to-bottom button */}
       {showScrollButton && (
         <button
           onClick={scrollToBottom}
