@@ -6,9 +6,10 @@ import "./Main.css";
 import robot from "@/public/robot (2).png";
 import Link from "next/link";
 import Image from "next/image";
+import { User } from "firebase/auth";
 
 export default function Main() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
 
   useEffect(() => {
 

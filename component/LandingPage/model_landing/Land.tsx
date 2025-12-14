@@ -1,13 +1,13 @@
 "use client";
 import React, { useEffect, useState } from "react";
-import { onAuthStateChanged } from "firebase/auth";
+import { onAuthStateChanged, User } from "firebase/auth";
 import { auth } from "@/Firebase/firebaseConfig";
 import "./Land.css";
 import Signup from "@/component/signup/Signup";
 import { useRouter } from "next/navigation";
 
 export default function AddModel() {
-  const [user, setUser] = useState(null);
+  const [user, setUser] = useState<User | null>(null);
   const [loading, setLoading] = useState(true);
   const [signuobox, setsignup] = useState(false);
   const Router = useRouter();

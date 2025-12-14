@@ -1,8 +1,8 @@
-import { initializeApp } from "firebase/app";
+import { initializeApp, getApps } from "firebase/app";
 import { getAuth } from "firebase/auth";
 import { getFirestore } from "firebase/firestore";
-import { getAnalytics } from "firebase/analytics";
 import { getStorage } from "firebase/storage";
+import { getAnalytics, isSupported } from "firebase/analytics";
 
 const firebaseConfig = {
   apiKey: "AIzaSyB-F3w5-By2L3XGfFNiK6wPBxPh9rAW9Lg",
@@ -14,11 +14,19 @@ const firebaseConfig = {
   measurementId: "G-JYKRZT1QDG"
 };
 
+// Initialize Firebase only once
+export const app = !getApps().length ? initializeApp(firebaseConfig) : getApps()[0];
 
-const app=initializeApp(firebaseConfig)
-
-
-export const analytics=getAnalytics(app);
-export const auth=getAuth(app)
-export const db=getFirestore(app)
+// Firebase services
+export const auth = getAuth(app);
+export const db = getFirestore(app);
 export const storage = getStorage(app);
+
+// Analytics is browser-only
+export const analytics = async () => {
+  if (typeof window !== "undefined" && await isSupported()) {
+    return getAnalytics(app);
+  } else {
+    return null;
+  }
+};
